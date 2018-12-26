@@ -15,7 +15,7 @@ describe("wc", function() {
     let files = { numbers: "1\n2\n3\n4" };
     let mockFs = mockFileSystem(files);
     let actualOut = wc("numbers", mockFs);
-    let expectedOut = "4\t4\t7 numbers";
+    let expectedOut = "\t3\t4\t7 numbers";
     assert.deepEqual(actualOut, expectedOut);
   });
 });

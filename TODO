@@ -1,8 +1,6 @@
 * node ./wc.js file1
-  * for single file
-  * write tests
+  line count has to be same as standard output of wc.
+  In ouput format tab has to be handled.
 
-  need fs.readFileSync to read file
-  line : split by new line
-  word : split by space
-  byte : split by empty
+* functions are to be extracted in utils. write tests.
+* functions for formatting purpose are to be pulled out from library.
