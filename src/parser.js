@@ -4,30 +4,38 @@ const isOption = function (option) {
   return option.startsWith(HYPHEN);
 }
 
-const OPTIONS = ['-l', '-w', '-c'];
+const WCOptions = ['-l', '-w', '-c'];
+
+const OPTIONS = { '-l' : "line", '-w' : "word", '-c' : "byte" };
 
 const isValidOption = function (option) {
-  return OPTIONS.includes(option);
+  return WCOptions.includes(option);
 }
 
-const createArgsObject = function (file, option) {
+const createArgsObject = function (files, option) {
   return {
-    file: file,
+    files: files,
     option: option
   };
 }
 
-const parse = function (args) {
+const parseInput = function (args) {
   const firstArg = args[0];
-  const secondArg = args[1];
-  let file = firstArg;
-  let option;
+  let files = args.slice();
+  let option = "";
   if (isOption(firstArg)) {
     option = firstArg;
-    file = secondArg;
+    files = args.slice(1)
   }
-  return createArgsObject(file, option);
+  return createArgsObject(files, option);
 }
 
+const parse = function(args) {
+  let  { files, option } = parseInput(args);
+  if(isValidOption(option)){
+    option = OPTIONS[option];
+  }
+  return createArgsObject(files, option);
+}
 
 module.exports = { parse };

@@ -9,6 +9,9 @@ const { splitByNewLine,
   ENCODING }
   = require('./util');
 
+const { getCountByOption, formatWCResult }
+  = require('./format');
+
 const getLines = function (content) {
   return splitByNewLine(content);
 };
@@ -29,25 +32,33 @@ const getWords = function (content) {
   return splitBySpace(content).filter(isNotWord);
 };
 
-
 const countWords = function (lines) {
   let words = lines.map(getWords);
   let wordCount = words.map(getCount).reduce(sum, 0);
   return wordCount;
 };
 
+const countLines = function (lines) {
+  return getCount(lines) - 1;
+}
+const countBytes = function (bytes) {
+  return getCount(bytes);
+}
+
 const getLineWordByteCount = function (fileContent) {
   const lines = getLines(fileContent);
-  const lineCount = getCount(lines) - 1;
-  const wordCount = countWords(lines);
   const bytes = getBytes(fileContent);
-  const byteCount = getCount(bytes);
   return {
-    lineCount: lineCount,
-    wordCount: wordCount,
-    byteCount: byteCount
+    lineCount: countLines(lines),
+    wordCount: countWords(lines),
+    byteCount: countBytes(bytes)
   };
 };
+
+const format = function (lineWordByte, file) {
+  const wcDetail = getWCDetails(lineWordByte).join(TAB);
+  return formatWCResult(wcDetail, file);
+}
 
 const getWCDetails = function ({ lineCount, wordCount, byteCount }) {
   return [lineCount, wordCount, byteCount];
@@ -57,37 +68,24 @@ const getFileContent = function (file, fs) {
   return fs.readFileSync(file, ENCODING);
 };
 
-const format = function (lineWordByte, file) {
-  const wcDetail = getWCDetails(lineWordByte).join(TAB);
-  return formatWCResult(wcDetail, file);
-}
 
-const formatWCResult = function (result, file) {
-  return TAB + result + SPACE + file;
-
-}
-
-const formatByOption = function (lineWordByte, option) {
-  const { lineCount, wordCount, byteCount } = lineWordByte;
-  const operation = {
-    '-l': lineCount,
-    '-w': wordCount,
-    '-c': byteCount
-  };
-  return operation[option];
-}
-
+const RunWC = function (parsedArgs, fs) {
+  const { files, option } = parsedArgs;
+  return files.map(function (file) {
+    const fileContent = getFileContent(file, fs);
+    let allCounts = getLineWordByteCount(fileContent);
+    let counts = allCounts;
+    if (option) {
+      counts = getCountByOption(allCounts, option);
+      return formatWCResult(counts,file).join("");
+    }
+    return format(counts, file).join("");
+  });
+};
 
 const wc = function (parsedArgs, fs) {
-  const { file, option } = parsedArgs;
-  const fileContent = getFileContent(file, fs);
-  const lineWordByte = getLineWordByteCount(fileContent);
-  let result = formatByOption(lineWordByte, option);
-  if (option)
-    return formatWCResult(result, file);
-  return format(lineWordByte, file);
-
-};
+  return RunWC(parsedArgs, fs).join("\n");
+}
 
 
 module.exports = { wc };
