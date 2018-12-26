@@ -1,0 +1,23 @@
+{
+  "name": "wc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "wc.js",
+  "scripts": {
+    "test": "mocha --recursive",
+    "prettier": "prettier --write **/*.js *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STEP-tw/wc-moumitaguri.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STEP-tw/wc-moumitaguri/issues"
+  },
+  "homepage": "https://github.com/STEP-tw/wc-moumitaguri#readme",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}
