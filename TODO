@@ -1,0 +1,8 @@
+* node ./wc.js file1
+  * for single file
+  * write tests
+
+  need fs.readFileSync to read file
+  line : split by new line
+  word : split by space
+  byte : split by empty
