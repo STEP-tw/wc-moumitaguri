@@ -57,11 +57,37 @@ const getFileContent = function (file, fs) {
   return fs.readFileSync(file, ENCODING);
 };
 
-const wc = function (file, fs) {
+const format = function (lineWordByte, file) {
+  const wcDetail = getWCDetails(lineWordByte).join(TAB);
+  return formatWCResult(wcDetail, file);
+}
+
+const formatWCResult = function (result, file) {
+  return TAB + result + SPACE + file;
+
+}
+
+const formatByOption = function (lineWordByte, option) {
+  const { lineCount, wordCount, byteCount } = lineWordByte;
+  const operation = {
+    '-l': lineCount,
+    '-w': wordCount,
+    '-c': byteCount
+  };
+  return operation[option];
+}
+
+
+const wc = function (parsedArgs, fs) {
+  const { file, option } = parsedArgs;
   const fileContent = getFileContent(file, fs);
   const lineWordByte = getLineWordByteCount(fileContent);
-  const wcDetail = getWCDetails(lineWordByte).join(TAB);
-  return TAB + wcDetail + SPACE + file;
+  let result = formatByOption(lineWordByte, option);
+  if (option)
+    return formatWCResult(result, file);
+  return format(lineWordByte, file);
+
 };
+
 
 module.exports = { wc };

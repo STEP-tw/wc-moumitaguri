@@ -1,6 +1,17 @@
-* node ./wc.js file1
-  line count has to be same as standard output of wc.
+* node ./wc.js file1 (X)
   In ouput format tab has to be handled.
 
-* functions are to be extracted in utils. write tests.
+* write tests for util functions.
 * functions for formatting purpose are to be pulled out from library.
+
+* should handle when single option is given 
+ * node ./wc.js -l file1
+ * node ./wc.js -c file1
+ * node ./wc.js -w file1
+
+* parse inputs(X)
+  options : line count byte
+
+  write test for parse ..(X)
+
+* according to parsedArgs modify wc (X)
