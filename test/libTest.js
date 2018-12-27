@@ -80,4 +80,21 @@ describe("wc", function() {
       });
     });
   });
+
+  describe("when all options given together", function() {
+    it("for single file", function() {
+      let args = { files: ["numbers"], option : "" };
+      let actualOut = wc(args, mockFs);
+      let expectedOut = "\t3\t4\t7 numbers";
+      assert.deepEqual(actualOut, expectedOut);
+    });
+    it("for single file", function() {
+      let args = { files: ["numbers", "vowels"], option : "" };
+      let actualOut = wc(args, mockFs);
+      let expectedOut = "\t3\t4\t7 numbers";
+      expectedOut += "\n\t4\t5\t9 vowels";
+      expectedOut += "\n\t7\t9\t16 total";
+      assert.deepEqual(actualOut, expectedOut);
+    });
+  });
 });

@@ -13,6 +13,7 @@ const isValidOption = function (option) {
 };
 
 const createArgsObject = function (files, option) {
+  
   return {
     files: files,
     option: option
@@ -37,13 +38,5 @@ const parse = function (args) {
   }
   return createArgsObject(files, option);
 };
-
-/*const parse = function(args) {
-  let { files, option } = parseInput(args);
-  if (isValidOption(option)) {
-   
-  }
-  return createArgsObject(files, option);
-};*/
 
 module.exports = { parse };
