@@ -13,6 +13,8 @@
 
 * write tests for util functions.
 
+* have to remove check for option only maybe modify the condition
+
 * handle multiple options
   change parser. now it is parsing single option only.
   sort options in order : word line byte always
