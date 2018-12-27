@@ -1,66 +1,50 @@
-const {
-  splitByNewLine,
-  splitBySpace,
-  splitByEmptyString,
-  sum,
-  NEWLINE,
+const { sum,
+  getBytes,
+  getLines,
+  getWords,
+  getCount
+} = require("./util");
+
+const { NEWLINE,
   SPACE,
   EMPTY_STRING,
   TAB,
-  ENCODING
-} = require("./util");
+  ENCODING }
+  = require('./constants');
 
 const { getCountByOption, formatWCResult } = require("./format");
 
-const getLines = function(content) {
-  return splitByNewLine(content);
-};
-
-const getBytes = function(content) {
-  return splitByEmptyString(content);
-};
-
-const getCount = function(content) {
-  return content.length;
-};
-
-const isNotWord = function(word) {
-  return word != EMPTY_STRING;
-};
-
-const getWords = function(content) {
-  return splitBySpace(content).filter(isNotWord);
-};
-
-const countWords = function(lines) {
+const countWords = function (content) {
+  let lines = getLines(content);
   let words = lines.map(getWords);
   let wordCount = words.map(getCount).reduce(sum, 0);
   return wordCount;
 };
 
-const countLines = function(lines) {
+const countLines = function (content) {
+  const lines = getLines(content);
   return getCount(lines) - 1;
 };
-const countBytes = function(bytes) {
+
+const countBytes = function (content) {
+  const bytes = getBytes(content);
   return getCount(bytes);
 };
 
-const getLineWordByteCount = function(fileContent) {
-  const lines = getLines(fileContent);
-  const bytes = getBytes(fileContent);
+const getLineWordByteCount = function (content) {
   return {
-    lineCount: countLines(lines),
-    wordCount: countWords(lines),
-    byteCount: countBytes(bytes)
+    lineCount: countLines(content),
+    wordCount: countWords(content),
+    byteCount: countBytes(content)
   };
 };
 
-const format = function(counts, file) {
+const format = function (counts, file) {
   const wcDetail = getWCCounts(counts).join(TAB);
   return formatWCResult(wcDetail, file);
 };
 
-const formatForMultipleFiles = function(counts, files, totalCounts) {
+const formatForMultipleFiles = function (counts, files, totalCounts) {
   let formattedWCResult = "";
   for (index in files) {
     formattedWCResult += format(counts[index], files[index]) + "\n";
@@ -69,15 +53,15 @@ const formatForMultipleFiles = function(counts, files, totalCounts) {
   return formattedWCResult;
 };
 
-const getWCCounts = function(counts) {
+const getWCCounts = function (counts) {
   return Object.keys(counts).map(x => counts[x]);
 };
 
-const getFileContent = function(file, fs) {
+const getFileContent = function (file, fs) {
   return fs.readFileSync(file, ENCODING);
 };
 
-const mapper = function(fs, option, file) {
+const mapper = function (fs, option, file) {
   const fileContent = getFileContent(file, fs);
   let counts = getLineWordByteCount(fileContent);
   if (option) {
@@ -86,7 +70,7 @@ const mapper = function(fs, option, file) {
   return counts;
 };
 
-const findTotal = function(countList1, countList2) {
+const findTotal = function (countList1, countList2) {
   let keys = Object.keys(countList1);
   let totalCounts = {};
   for (key of keys) {
@@ -95,7 +79,7 @@ const findTotal = function(countList1, countList2) {
   return totalCounts;
 };
 
-const wc = function(parsedArgs, fs) {
+const wc = function (parsedArgs, fs) {
   const { files, option } = parsedArgs;
   const mapFileWithCounts = mapper.bind(null, fs, option);
   let counts = files.map(mapFileWithCounts);

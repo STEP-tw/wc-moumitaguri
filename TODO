@@ -15,6 +15,8 @@
 
 * have to remove check for option only maybe modify the condition
 
-* handle multiple options
-  change parser. now it is parsing single option only.
-  sort options in order : word line byte always
+* tests for all options given togetherly and separately are seemed to be misleading.because option : "".
+have to modify this.
+
+* pull out constants in a separate file
+* pull out util functions in a separate file
