@@ -4,12 +4,12 @@ const isOption = function (option) {
   return option.startsWith(HYPHEN);
 }
 
-const WCOptions = ['-l', '-w', '-c'];
+const WC_OPTIONS = ['-l', '-w', '-c'];
 
 const OPTIONS = { '-l' : "line", '-w' : "word", '-c' : "byte" };
 
 const isValidOption = function (option) {
-  return WCOptions.includes(option);
+  return WC_OPTIONS.includes(option);
 }
 
 const createArgsObject = function (files, option) {

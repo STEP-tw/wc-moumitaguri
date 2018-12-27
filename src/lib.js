@@ -68,7 +68,7 @@ const getFileContent = function (file, fs) {
   return fs.readFileSync(file, ENCODING);
 };
 
-const RunWC = function (parsedArgs, fs) {
+const runWC = function (parsedArgs, fs) {
   const { files, option } = parsedArgs;
   return files.map(function (file) {
     const fileContent = getFileContent(file, fs);
@@ -81,7 +81,7 @@ const RunWC = function (parsedArgs, fs) {
 };
 
 const wc = function (parsedArgs, fs) {
-  return RunWC(parsedArgs, fs).join("\n");
+  return runWC(parsedArgs, fs).join("\n");
 }
 
 
