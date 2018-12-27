@@ -22,6 +22,12 @@ describe("parse", function() {
       let expectedOut = { files: ["file1"], option: "" };
       assert.deepEqual(actualOut, expectedOut);
     });
+    it ('when all options are given separately' , function() {
+      let args = [ "-l", "-c", "-w", "file1"];
+      let actualOut = parse(args);
+      let expectedOut = { files: ["file1"], option: "" };
+      assert.deepEqual(actualOut, expectedOut);
+    });
   });
   describe("for multiple files", function() {
     it("should provide parsed input object when option is not given", function() {
