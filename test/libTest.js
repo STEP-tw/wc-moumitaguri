@@ -20,6 +20,14 @@ describe("wc", function () {
       let expectedOut = "\t3\t4\t7 numbers";
       assert.deepEqual(actualOut, expectedOut);
     });
+    it("when multiple files are given", function () {
+      let args = { files: ["numbers", "vowels"] }
+      let actualOut = wc(args, mockFs);
+      let expectedOut = "\t3\t4\t7 numbers";
+      expectedOut += "\n\t4\t5\t9 vowels";
+      expectedOut += "\n\t7\t9\t16 total";
+      assert.deepEqual(actualOut, expectedOut);
+    });
   });
 
   describe('should provide line word or byte count according to the given option when single file is given', function () {
