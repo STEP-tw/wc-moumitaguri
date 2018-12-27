@@ -95,7 +95,7 @@ const findTotal = function(countList1, countList2) {
   return totalCounts;
 };
 
-const runWC = function(parsedArgs, fs) {
+const wc = function(parsedArgs, fs) {
   const { files, option } = parsedArgs;
   const mapFileWithCounts = mapper.bind(null, fs, option);
   let counts = files.map(mapFileWithCounts);
@@ -107,9 +107,4 @@ const runWC = function(parsedArgs, fs) {
     return formatForMultipleFiles(counts, files, totalCounts);
   }
 };
-
-const wc = function(parsedArgs, fs) {
-  return runWC(parsedArgs, fs);
-};
-
 module.exports = { wc };

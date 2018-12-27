@@ -2,13 +2,12 @@
  * node ./wc.js -l file1 (X)
  * node ./wc.js -c file1 (X)
  * node ./wc.js -w file1 (X)
+ * node ./wc.js file1 file2 => default case for multiple files (X)
 
 * In ouput format tab has to be handled.
 
 * write tests for util functions.
-* 
 
-* node ./wc.js file1 file2 => default case for multiple files
-  
-  1.in wc function formatter has to be added. for single file it will be as previous one,for multiple a new formatter will be added.
-  2. all the counts are to be added . and filename title will be total here.
+* handle multiple options
+  change parser. now it is parsing single option only.
+  sort options in order : word line byte always
