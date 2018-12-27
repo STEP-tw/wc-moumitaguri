@@ -12,11 +12,7 @@ const getCountByOption = function (lineWordByte, option) {
     'word': wordCount,
     'byte': byteCount
   };
-  return operation[option];
-}
-
-const MultipleFileFormatter = function(wcDetail) {
-  
+  return {'count' : operation[option] };
 }
 
 module.exports = { getCountByOption, formatWCResult };

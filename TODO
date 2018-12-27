@@ -6,11 +6,9 @@
 * In ouput format tab has to be handled.
 
 * write tests for util functions.
-* functions for formatting purpose are to be pulled out from library.
+* 
 
 * node ./wc.js file1 file2 => default case for multiple files
-  1.modify parser for multiple files.now file is a string .have to change it to an array of strings. X
-  2.in wc function formatter has to be added. for single file it will be as previous one,for multiple a new formatter will be added.
-  3. all the counts are to be added . and filename title will be total here.
-
-* add tests for parse()for default case and multiple files
+  
+  1.in wc function formatter has to be added. for single file it will be as previous one,for multiple a new formatter will be added.
+  2. all the counts are to be added . and filename title will be total here.

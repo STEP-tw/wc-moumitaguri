@@ -56,28 +56,25 @@ const getLineWordByteCount = function (fileContent) {
 };
 
 const format = function (lineWordByte, file) {
-  const wcDetail = getWCDetails(lineWordByte).join(TAB);
+  const wcDetail = getWCCounts(lineWordByte).join(TAB);
   return formatWCResult(wcDetail, file);
 }
 
-const getWCDetails = function ({ lineCount, wordCount, byteCount }) {
-  return [lineCount, wordCount, byteCount];
-};
+const getWCCounts = function(counts) {
+  return Object.keys(counts).map((x) => counts[x]);
+}
 
 const getFileContent = function (file, fs) {
   return fs.readFileSync(file, ENCODING);
 };
 
-
 const RunWC = function (parsedArgs, fs) {
   const { files, option } = parsedArgs;
   return files.map(function (file) {
     const fileContent = getFileContent(file, fs);
-    let allCounts = getLineWordByteCount(fileContent);
-    let counts = allCounts;
+    let counts = getLineWordByteCount(fileContent);
     if (option) {
-      counts = getCountByOption(allCounts, option);
-      return formatWCResult(counts,file).join("");
+      counts = getCountByOption(counts, option);
     }
     return format(counts, file).join("");
   });
