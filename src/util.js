@@ -10,7 +10,6 @@ const splitByEmptyString = string => string.split(EMPTY_STRING);
 
 const sum = (num1, num2) => num1 + num2;
 
-
 module.exports = {
   splitByNewLine,
   splitBySpace,
