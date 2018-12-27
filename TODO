@@ -3,6 +3,11 @@
  * node ./wc.js -c file1 (X)
  * node ./wc.js -w file1 (X)
  * node ./wc.js file1 file2 => default case for multiple files (X)
+ * node ./wc.js -l file1 file2(X)
+ * node ./wc.js -c file1 file2(X)
+ * node ./wc.js -w file1 file2(X)
+
+* node ./wc.js -lcw file1 => same as default
 
 * In ouput format tab has to be handled.
 
