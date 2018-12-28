@@ -23,10 +23,6 @@ const createArgsObject = function (files, options) {
   };
 };
 
-const isPossibleOption = function (option) {
-  return isOption(option) && option.length == 4;
-}
-
 const mapOptions = function(options) {
   return options.map((option) => OPTIONS[option]);
 }
