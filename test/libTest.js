@@ -15,13 +15,13 @@ describe("wc", function() {
   let mockFs = mockFileSystem(files);
   describe("should handle default case", function() {
     it("when single file is given", function() {
-      let args = { files: ["numbers"] };
+      let args = { files: ["numbers"], options : ["lineCount", "wordCount", "byteCount"]};
       let actualOut = wc(args, mockFs);
       let expectedOut = "\t3\t4\t7 numbers";
       assert.deepEqual(actualOut, expectedOut);
     });
     it("when multiple files are given", function() {
-      let args = { files: ["numbers", "vowels"] };
+      let args = { files: ["numbers", "vowels"], options : ["lineCount", "wordCount", "byteCount"] };
       let actualOut = wc(args, mockFs);
       let expectedOut = "\t3\t4\t7 numbers";
       expectedOut += "\n\t4\t5\t9 vowels";
@@ -33,21 +33,21 @@ describe("wc", function() {
   describe("should provide line word or byte count according to the given option", function() {
     describe("when single file is given", function() {
       it("should provide line count", function() {
-        let args = { option: "line", files: ["numbers"] };
+        let args = { options: ["lineCount"], files: ["numbers"] };
         let actualOut = wc(args, mockFs);
         let expectedOut = "\t3 numbers";
         assert.deepEqual(actualOut, expectedOut);
       });
 
       it("should provide word count", function() {
-        let args = { option: "word", files: ["numbers"] };
+        let args = { options: ["wordCount"], files: ["numbers"] };
         let actualOut = wc(args, mockFs);
         let expectedOut = "\t4 numbers";
         assert.deepEqual(actualOut, expectedOut);
       });
 
       it("should provide word count", function() {
-        let args = { option: "byte", files: ["numbers"] };
+        let args = { options: ["byteCount"], files: ["numbers"] };
         let actualOut = wc(args, mockFs);
         let expectedOut = "\t7 numbers";
         assert.deepEqual(actualOut, expectedOut);
@@ -55,7 +55,7 @@ describe("wc", function() {
     });
     describe("when multiple files are given", function() {
       it("should provide line count", function() {
-        let args = { option: "line", files: ["numbers", "vowels"] };
+        let args = { options: ["lineCount"], files: ["numbers", "vowels"] };
         let actualOut = wc(args, mockFs);
         let expectedOut = "\t3 numbers";
         expectedOut += "\n\t4 vowels";
@@ -63,7 +63,7 @@ describe("wc", function() {
         assert.deepEqual(actualOut, expectedOut);
       });
       it("should provide word count", function() {
-        let args = { option: "word", files: ["numbers", "vowels"] };
+        let args = { options: ["wordCount"], files: ["numbers", "vowels"] };
         let actualOut = wc(args, mockFs);
         let expectedOut = "\t4 numbers";
         expectedOut += "\n\t5 vowels";
@@ -71,7 +71,7 @@ describe("wc", function() {
         assert.deepEqual(actualOut, expectedOut);
       });
       it("should provide byte count", function() {
-        let args = { option: "byte", files: ["numbers", "vowels"] };
+        let args = { options: ["byteCount"], files: ["numbers", "vowels"] };
         let actualOut = wc(args, mockFs);
         let expectedOut = "\t7 numbers";
         expectedOut += "\n\t9 vowels";
@@ -83,13 +83,13 @@ describe("wc", function() {
 
   describe("when all options given together", function() {
     it("for single file", function() {
-      let args = { files: ["numbers"], option : "" };
+      let args = { files: ["numbers"], options : ["lineCount", "wordCount", "byteCount"] };
       let actualOut = wc(args, mockFs);
       let expectedOut = "\t3\t4\t7 numbers";
       assert.deepEqual(actualOut, expectedOut);
     });
     it("for single file", function() {
-      let args = { files: ["numbers", "vowels"], option : "" };
+      let args = { files: ["numbers", "vowels"], options : ["lineCount", "wordCount", "byteCount"] };
       let actualOut = wc(args, mockFs);
       let expectedOut = "\t3\t4\t7 numbers";
       expectedOut += "\n\t4\t5\t9 vowels";
@@ -100,13 +100,13 @@ describe("wc", function() {
 
   describe("when all options given separately", function() {
     it("for single file", function() {
-      let args = { files: ["numbers"], option : "" };
+      let args = { files: ["numbers"], options : ["lineCount", "wordCount", "byteCount"] };
       let actualOut = wc(args, mockFs);
       let expectedOut = "\t3\t4\t7 numbers";
       assert.deepEqual(actualOut, expectedOut);
     });
     it("for single file", function() {
-      let args = { files: ["numbers", "vowels"], option : "" };
+      let args = { files: ["numbers", "vowels"], options : ["lineCount", "wordCount", "byteCount"] };
       let actualOut = wc(args, mockFs);
       let expectedOut = "\t3\t4\t7 numbers";
       expectedOut += "\n\t4\t5\t9 vowels";

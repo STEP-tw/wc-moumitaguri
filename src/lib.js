@@ -12,7 +12,8 @@ const { NEWLINE,
   ENCODING }
   = require('./constants');
 
-const { getCountByOption, formatWCResult } = require("./format");
+
+const { formatWCResult } = require("./format");
 
 const countWords = function (content) {
   let lines = getLines(content);
@@ -61,13 +62,17 @@ const getFileContent = function (file, fs) {
   return fs.readFileSync(file, ENCODING);
 };
 
-const mapper = function (fs, option, file) {
+const sortOptions = function(options) {
+  const sortedOptions = ['lineCount', 'wordCount', 'byteCount'];
+  return sortedOptions.filter(option => options.includes(option));
+};
+
+const mapper = function (fs, options, file) {
+  const sortedOptions = sortOptions(options);
   const fileContent = getFileContent(file, fs);
-  let counts = getLineWordByteCount(fileContent);
-  if (option) {
-    counts = getCountByOption(counts, option);
-  }
-  return counts;
+  const counts = getLineWordByteCount(fileContent);
+  const countDetails = sortedOptions.map(option => counts[option]);
+  return countDetails;
 };
 
 const findTotal = function (countList1, countList2) {
@@ -80,8 +85,8 @@ const findTotal = function (countList1, countList2) {
 };
 
 const wc = function (parsedArgs, fs) {
-  const { files, option } = parsedArgs;
-  const mapFileWithCounts = mapper.bind(null, fs, option);
+  const { files, options } = parsedArgs;
+  const mapFileWithCounts = mapper.bind(null, fs, options);
   let counts = files.map(mapFileWithCounts);
   if (files.length === 1) {
     return format(counts[0], files[0]);
