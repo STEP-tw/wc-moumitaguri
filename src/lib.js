@@ -12,6 +12,8 @@ const { NEWLINE,
   ENCODING }
   = require('./constants');
 
+  const {parse} = require('./parser');
+
 
 const { formatWCResult } = require("./format");
 
@@ -84,8 +86,8 @@ const findTotal = function (countList1, countList2) {
   return totalCounts;
 };
 
-const wc = function (parsedArgs, fs) {
-  const { files, options } = parsedArgs;
+const wc = function (args, fs) {
+  const { files, options } = parse(args);
   const mapFileWithCounts = mapper.bind(null, fs, options);
   let counts = files.map(mapFileWithCounts);
   if (files.length === 1) {

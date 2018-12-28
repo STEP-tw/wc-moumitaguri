@@ -23,3 +23,5 @@
 * In ouput format tab has to be handled.
 
 * write tests for util functions.
+
+* parse should be called from lib.js by wc instead being called from wc.js.
