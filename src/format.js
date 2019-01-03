@@ -1,7 +1,17 @@
-const { TAB, SPACE } = require("./constants");
-
-const formatWCResult = function(result, file) {
-  return [TAB, result, SPACE, file].join("");
+const { TAB, SPACE, EMPTY_STRING } = require("./constants");
+const formatter = function(options, fileDetails){
+  const sortedOptions = sortOptions(options);
+  const counts = sortedOptions.map(option => {
+    return TAB + fileDetails[option];
+  });
+  
+  return counts.join(EMPTY_STRING) + SPACE + fileDetails.file;
 };
 
-module.exports = { formatWCResult };
+const sortOptions = function(options) {
+  const sortedOptions = ["lineCount", "wordCount", "byteCount"];
+  return sortedOptions.filter(option => options.includes(option));
+};
+
+
+module.exports = { formatter };

@@ -1,10 +1,10 @@
 const { sum, getBytes, getLines, getWords, getCount } = require("./util");
 
-const { TAB, ENCODING } = require("./constants");
+const { NEWLINE, ENCODING } = require("./constants");
 
 const { parse } = require("./parser");
 
-const { formatWCResult } = require("./format");
+const { formatter } = require("./format");
 
 const countWords = function(content) {
   let lines = getLines(content);
@@ -23,69 +23,51 @@ const countBytes = function(content) {
   return getCount(bytes);
 };
 
-const getLineWordByteCount = function(content) {
-  return {
-    lineCount: countLines(content),
-    wordCount: countWords(content),
-    byteCount: countBytes(content)
-  };
+const getFileDetails = function({fileContent, file}) {
+  const lineCount = countLines(fileContent);
+  const wordCount = countWords(fileContent);
+  const byteCount = countBytes(fileContent);
+  return { lineCount, wordCount, byteCount, file };
 };
 
-const format = function(counts, file) {
-  const wcDetail = getWCCounts(counts).join(TAB);
-  return formatWCResult(wcDetail, file);
+const getFiles = function(fs,files) {
+  const reader = getFileContent.bind(null,fs);
+  return files.map(reader);
 };
 
-const formatForMultipleFiles = function(counts, files, totalCounts) {
-  let formattedWCResult = "";
-  for (let index in files) {
-    formattedWCResult += format(counts[index], files[index]) + "\n";
+const getFileContent = function(fs,file) {
+  const fileContent = fs.readFileSync(file, ENCODING);
+  return { fileContent, file};
+};
+
+const addCounts = function(firstFile, secondFile){
+  const lineCount = firstFile.lineCount + secondFile.lineCount;
+  const wordCount = firstFile.wordCount + secondFile.wordCount;
+  const byteCount = firstFile.byteCount + secondFile.byteCount;
+  const file = "total";
+  return {lineCount, wordCount, byteCount, file};
+};
+
+const getTotal = function(fileDetails){
+  return fileDetails.reduce(addCounts);
+};
+
+const multipleFileFormatter = function(fileDetails){
+  if(fileDetails.length > 1){
+    const total = getTotal(fileDetails);
+    fileDetails.push(total);
   }
-  formattedWCResult += format(totalCounts, "total");
-  return formattedWCResult;
-};
-
-const getWCCounts = function(counts) {
-  return Object.keys(counts).map(x => counts[x]);
-};
-
-const getFileContent = function(file, fs) {
-  return fs.readFileSync(file, ENCODING);
-};
-
-const sortOptions = function(options) {
-  const sortedOptions = ["lineCount", "wordCount", "byteCount"];
-  return sortedOptions.filter(option => options.includes(option));
-};
-
-const mapper = function(fs, options, file) {
-  const sortedOptions = sortOptions(options);
-  const fileContent = getFileContent(file, fs);
-  const counts = getLineWordByteCount(fileContent);
-  const countDetails = sortedOptions.map(option => counts[option]);
-  return countDetails;
-};
-
-const findTotal = function(countList1, countList2) {
-  let keys = Object.keys(countList1);
-  let totalCounts = {};
-  for (let key of keys) {
-    totalCounts[key] = countList1[key] + countList2[key];
-  }
-  return totalCounts;
+  return fileDetails;
 };
 
 const wc = function(args, fs) {
-  const { files, options } = parse(args);
-  const mapFileWithCounts = mapper.bind(null, fs, options);
-  let counts = files.map(mapFileWithCounts);
-  if (files.length === 1) {
-    return format(counts[0], files[0]);
-  }
-  if (files.length > 1) {
-    let totalCounts = counts.reduce(findTotal);
-    return formatForMultipleFiles(counts, files, totalCounts);
-  }
+  const { options, files}  = parse(args);
+  const fileContents = getFiles(fs, files);
+  let fileDetails = fileContents.map(getFileDetails);
+  fileDetails = multipleFileFormatter(fileDetails);
+  const singleFileFormatter = formatter.bind(null,options);
+  const result = fileDetails.map(singleFileFormatter);
+  return result.join(NEWLINE);
 };
 
 module.exports = { wc };
