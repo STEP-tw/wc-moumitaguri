@@ -1,3 +1,5 @@
+/* eslint-env mocha*/
+
 const assert = require("assert");
 const { parse } = require("../src/parser.js");
 
@@ -13,32 +15,47 @@ describe("parse", function() {
     it("should provide parsed input object when option is not given ", function() {
       let args = ["file1"];
       let actualOut = parse(args);
-      let expectedOut = { files: ["file1"], options: ["lineCount","wordCount","byteCount"] };
+      let expectedOut = {
+        files: ["file1"],
+        options: ["lineCount", "wordCount", "byteCount"]
+      };
       assert.deepEqual(actualOut, expectedOut);
     });
-    it ('when all options are given together' , function() {
-      let args = [ "-lcw", "file1"];
+    it("when all options are given together", function() {
+      let args = ["-lcw", "file1"];
       let actualOut = parse(args);
-      let expectedOut = { files: ["file1"], options: ["lineCount", "byteCount", "wordCount"] };
+      let expectedOut = {
+        files: ["file1"],
+        options: ["lineCount", "byteCount", "wordCount"]
+      };
       assert.deepEqual(actualOut, expectedOut);
     });
 
-    it ('when two options are given together' , function() {
-      let args = [ "-lc", "file1"];
+    it("when two options are given together", function() {
+      let args = ["-lc", "file1"];
       let actualOut = parse(args);
-      let expectedOut = { files: ["file1"], options: ["lineCount", "byteCount"] };
+      let expectedOut = {
+        files: ["file1"],
+        options: ["lineCount", "byteCount"]
+      };
       assert.deepEqual(actualOut, expectedOut);
     });
-    it ('when all options are given separately' , function() {
-      let args = [ "-l", "-c", "-w", "file1"];
+    it("when all options are given separately", function() {
+      let args = ["-l", "-c", "-w", "file1"];
       let actualOut = parse(args);
-      let expectedOut = { files: ["file1"], options: ["lineCount", "byteCount", "wordCount"] };
+      let expectedOut = {
+        files: ["file1"],
+        options: ["lineCount", "byteCount", "wordCount"]
+      };
       assert.deepEqual(actualOut, expectedOut);
     });
-    it ('when two options are given separately' , function() {
-      let args = [ "-l", "-c", "file1"];
+    it("when two options are given separately", function() {
+      let args = ["-l", "-c", "file1"];
       let actualOut = parse(args);
-      let expectedOut = { files: ["file1"], options: ["lineCount", "byteCount"] };
+      let expectedOut = {
+        files: ["file1"],
+        options: ["lineCount", "byteCount"]
+      };
       assert.deepEqual(actualOut, expectedOut);
     });
   });
@@ -46,7 +63,10 @@ describe("parse", function() {
     it("should provide parsed input object when option is not given", function() {
       let args = ["file1", "file2"];
       let actualOut = parse(args);
-      let expectedOut = { files: ["file1", "file2"], options: ["lineCount", "wordCount", "byteCount"] };
+      let expectedOut = {
+        files: ["file1", "file2"],
+        options: ["lineCount", "wordCount", "byteCount"]
+      };
       assert.deepEqual(actualOut, expectedOut);
     });
     it("should provide parsed input object when option is given", function() {
@@ -56,17 +76,23 @@ describe("parse", function() {
       assert.deepEqual(actualOut, expectedOut);
     });
 
-    it ('when two options are given together' , function() {
-      let args = [ "-lc", "file1", "file2"];
+    it("when two options are given together", function() {
+      let args = ["-lc", "file1", "file2"];
       let actualOut = parse(args);
-      let expectedOut = { files: ["file1", "file2"], options: ["lineCount", "byteCount"] };
+      let expectedOut = {
+        files: ["file1", "file2"],
+        options: ["lineCount", "byteCount"]
+      };
       assert.deepEqual(actualOut, expectedOut);
     });
 
-    it ('when all options are given together' , function() {
-      let args = [ "-lcw", "file1", "file2"];
+    it("when all options are given together", function() {
+      let args = ["-lcw", "file1", "file2"];
       let actualOut = parse(args);
-      let expectedOut = { files: ["file1", "file2"], options: ["lineCount", "byteCount", "wordCount"] };
+      let expectedOut = {
+        files: ["file1", "file2"],
+        options: ["lineCount", "byteCount", "wordCount"]
+      };
       assert.deepEqual(actualOut, expectedOut);
     });
   });
